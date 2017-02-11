@@ -1,3 +1,4 @@
+<?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -42,6 +43,17 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+          'loginRedirect' => [
+            'controller' => 'Articles',
+            'action' => 'index'
+          ],
+          'logoutRedirect' => [
+            'controller' => 'Pages',
+            'action' => 'display',
+            'home'
+          ]
+        ]);
 
         /*
          * Enable the following components for recommended CakePHP security settings.
@@ -65,4 +77,18 @@ class AppController extends Controller
             $this->set('_serialize', true);
         }
     }
+
+    public function beforeFilter(Event $event)
+    {
+      $this->Auth->allow(['index', 'view', 'display']);
+    }
+
+    public function isAuthorized($user)
+    {
+      if (isset($user['role']) && $user['role'] === 'admin') {
+        return true;
+      }
+      return false;
+    }
 }
+?>
