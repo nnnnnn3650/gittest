@@ -42,8 +42,13 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </ul>
         <div class="top-bar-section">
             <ul class="right">
-                <li><a target="_blank" href="http://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="http://api.cakephp.org/3.0/">API</a></li>
+                <?php if ($this->request->session()->read('Auth')): ?>
+                  <li><a><?= 'hello, '. $this->request->session()->read('Auth.User.username'); ?></a></li>
+                  <li><?= $this->Html->link('logout', ['controller' => 'Users','action' => 'logout']); ?></li>
+                <?php else: ?>
+                  <li><?= $this->Html->link('signup', ['controller' => 'Users','action' => 'add']); ?></li>
+                  <li><?= $this->Html->link('login', ['controller' => 'Users','action' => 'login']); ?></li>
+                <?php endif;?>
             </ul>
         </div>
     </nav>
