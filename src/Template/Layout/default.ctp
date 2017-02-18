@@ -43,7 +43,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <div class="top-bar-section">
             <ul class="right">
                 <?php if ($this->request->session()->read('Auth')): ?>
-                  <li><a><?= 'hello, '. $this->request->session()->read('Auth.User.username'); ?></a></li>
+                  <li>
+                  <?= $this->Html->link('hello, '. $this->request->session()->read('Auth.User.username'), ['controller'=> 'Users','action' => 'edit', $this->request->session()->read('Auth.User.id')]); ?></li>
                   <li><?= $this->Html->link('logout', ['controller' => 'Users','action' => 'logout']); ?></li>
                 <?php else: ?>
                   <li><?= $this->Html->link('signup', ['controller' => 'Users','action' => 'add']); ?></li>

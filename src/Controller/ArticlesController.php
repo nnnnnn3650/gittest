@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 class ArticlesController extends AppController
 {
@@ -12,9 +13,13 @@ class ArticlesController extends AppController
     $this->loadComponent('Flash');
   }
 
-  public function index()
+  public function index($username)
   {
-    $this->set('articles', $this->Articles->find('all'));
+    $users = TableRegistry::get('Users');
+    $user = $users->find()->where(['username' => $username])->first();
+    $this->set('articles', $this->Articles->find('all',
+                  ['conditions' => ['user_id' => $user->id]]));
+    $this->set('username', $username);
   }
 
   public function view($id)
@@ -29,8 +34,6 @@ class ArticlesController extends AppController
     if ($this->request->is('post')) {
       $article = $this->Articles->patchEntity($article, $this->request->data);
       $article->user_id = $this->Auth->user('id');
-      $newData = ['user_id' => $this->Auth->user('id')];
-      $article = $this->Articles->patchEntity($article, $newData);
       if ($this->Articles->save($article)) {
         $this->Flash->success(__('Your article has been saved.'));
         return $this->redirect(['action' => 'index']);

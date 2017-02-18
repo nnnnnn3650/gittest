@@ -226,3 +226,7 @@ if (Configure::read('debug')) {
  *マイグレーションファイル
  */
 Plugin::load('Migrations');
+
+Plugin::load('DebugKit');
+
+Plugin::load('DebugKit');

@@ -52,10 +52,10 @@ class UsersTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->allowEmpty('username');
+            ->notEmpty('username');
 
         $validator
-            ->allowEmpty('password');
+            ->notEmpty('password');
 
         $validator
             ->allowEmpty('role');
