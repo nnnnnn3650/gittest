@@ -26,6 +26,8 @@ class ArticlesController extends AppController
   {
     $article = $this->Articles->get($id);
     $this->set(compact('article'));
+    $comments = TableRegistry::get('Comments')->find()->where(['article_id' => $id]);
+    $this->set('comments', $comments);
   }
 
   public function add()
