@@ -3,3 +3,4 @@
 /tmp/*
 /logs/*
 /config/app.php
+/.project
